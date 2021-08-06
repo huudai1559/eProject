@@ -704,6 +704,78 @@ $(document).ready(function () {
             $(".comparePan").empty();
         }
     }
+
+    //Signin - Signup Member
+    $("#form-signup").submit(function (e) {
+        let name = $("#name").val();
+
+        let email = $("#email").val();
+
+        //Kiem tra pass (tu 3-15 ky tu - ngoai tru khoang trang)
+        let pass = $("#password").val();
+
+        //Kiem tra password confirm co giong password ko?
+        let pass2 = $("#cpassword").val();
+        if (pass !== pass2) {
+            alert("Repeat your password is not the same as password. Please re-enter!");
+            $("#cpassword").focus();
+            return false;
+        }
+
+        let sub = $("#subnewsletter:checked").val();
+        if (sub){
+            sub = "Agree";
+        }
+        else{
+            alert("Subscribe Our Newsletter is not checked. Please check!");
+            $("#cpassword").focus();
+            return false;
+        }   
+
+        localStorage.username = name;
+        localStorage.pass = pass;
+
+        let info = [];
+
+        info.push(" Member Information");
+        info.push(" ==================");
+        info.push(` Name: ${name}`);
+        info.push(` Email: ${email}`);
+        info.push(` Password: ${pass}`);
+        info.push(` Subscribe Our Newsletter: ${sub}`);
+
+        let sINFO = info.join("\n");
+        alert(sINFO);
+
+        alert("Member information is successfully registered. Please click Ok to return to the HomePage!");
+    });
+
+    $("#form-signin").submit(function (e) {
+        let name1 = $("#name1").val();
+        let pass1 = $("#password1").val();
+
+        let usernamecheck = localStorage.getItem("username");
+        let passcheck = localStorage.getItem("pass");
+
+        if(name1 == usernamecheck && pass1 == passcheck){
+            if($("#rememberMe").is(":checked")){
+                sessionStorage.username = name1;
+                sessionStorage.password = pass1;
+            }
+            else{
+                sessionStorage.username = '';
+                sessionStorage.password = '';
+            }
+            alert("Welcome, " + name1 + ". Please click Ok to return to the HomePage!");
+        }
+        else{
+            e.preventDefault();
+            alert("Member information is not registered. Please register!")
+            $("#name").focus();
+        }
+
+        
+    });
 });
 
 function filterPrice(data) {
